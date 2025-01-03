@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django import forms
 from .forms import UserRegister
-from .models import Buyer, Game
+from .models import Buyer, Game, News
 
 # Create your views here.
 def platform(request):
@@ -13,6 +14,7 @@ def platform(request):
         'text': text,
     }
     return render(request, 'platform.html', context)
+
 
 
 def shop(request):
@@ -99,3 +101,12 @@ def sign_up_by_html(request):
                 return HttpResponse(f'Приветствуем, {username}')
 
     return render(request, 'registration_page.html', info)
+
+
+
+def news(request):
+    posts = News.objects.all().order_by('-date')
+    paginator = Paginator(posts, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'news.html', {'page_obj': page_obj})

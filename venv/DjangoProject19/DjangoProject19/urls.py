@@ -25,4 +25,5 @@ urlpatterns = [
     path('platform/', platform),
     path('games/', shop),
     path('cart/', cart),
+    path('platform/news/',news),
 ]
